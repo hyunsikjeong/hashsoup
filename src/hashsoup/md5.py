@@ -34,6 +34,7 @@ class MD5:
     ]
 
     LEN_STATE = 16
+    LEN_BLOCK = 64
 
     def __init__(self, inp: bytes = None, state: bytes = None, digested: int = None):
         # This allows users to modify constants when they want
