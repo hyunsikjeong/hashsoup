@@ -3,6 +3,7 @@ from copy import deepcopy
 
 # Implementation mostly from https://en.wikipedia.org/wiki/MD5
 class MD5:
+    # fmt: off
     CONST_s = [
         7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,
         5,  9, 14, 20,  5,  9, 14, 20,  5,  9, 14, 20,  5,  9, 14, 20,
@@ -35,45 +36,48 @@ class MD5:
 
     LEN_STATE = 16
     LEN_BLOCK = 64
+    # fmt: on
 
     def __init__(self, inp: bytes = None, state: bytes = None, digested: int = None):
         # This allows users to modify constants when they want
         self.s = self.CONST_s[:]
         self.K = self.CONST_K[:]
         if state:
-            self.state = [int.from_bytes(state[i:i+4], 'little') for i in range(0, 16, 4)]
+            self.state = [
+                int.from_bytes(state[i : i + 4], "little") for i in range(0, 16, 4)
+            ]
         else:
             self.state = self.CONST_STATE[:]
 
         self.buffer = bytearray()
         # Store byte length
         self.digested = digested or 0
-    
+
         if inp:
             self.update(inp)
-    
+
     @classmethod
     def get_padding(cls, len_: int):
-        padding = b'\x80'
-        padding += b'\x00' * ((55 - len_) % 64)
-        padding += (len_ * 8).to_bytes(8, 'little')
+        padding = b"\x80"
+        padding += b"\x00" * ((55 - len_) % 64)
+        padding += (len_ * 8).to_bytes(8, "little")
         return padding
-    
+
     def _pad(self):
         self.buffer += self.get_padding(self.digested)
-        
+
     def update(self, inp: bytes) -> None:
         self.buffer += inp
         self.digested += len(inp)
         self._update()
-    
+
     def _update(self):
         while len(self.buffer) >= 64:
             self._update_chunk(self.buffer[:64])
             self.buffer = self.buffer[64:]
 
     def _update_chunk(self, chunk: bytes):
-        M = [int.from_bytes(chunk[i:i+4], 'little') for i in range(0, 64, 4)]
+        M = [int.from_bytes(chunk[i : i + 4], "little") for i in range(0, 64, 4)]
         A, B, C, D = self.state
 
         for i in range(64):
@@ -92,12 +96,12 @@ class MD5:
             F = (F + A + self.K[i] + M[g]) & 0xFFFFFFFF
             A, D, C = D, C, B
             B = (B + rol32(F, self.s[i])) & 0xFFFFFFFF
-        
+
         self.state = [
             (self.state[0] + A) & 0xFFFFFFFF,
             (self.state[1] + B) & 0xFFFFFFFF,
             (self.state[2] + C) & 0xFFFFFFFF,
-            (self.state[3] + D) & 0xFFFFFFFF
+            (self.state[3] + D) & 0xFFFFFFFF,
         ]
 
     def digest(self) -> bytes:
@@ -107,7 +111,7 @@ class MD5:
 
         assert len(copy.buffer) == 0
 
-        return b''.join(v.to_bytes(4, 'little') for v in copy.state)
-    
+        return b"".join(v.to_bytes(4, "little") for v in copy.state)
+
     def hexdigest(self) -> str:
         return self.digest().hex()
