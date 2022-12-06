@@ -1,8 +1,12 @@
-from .utils import rol32
 from copy import deepcopy
 
+from .hasher import Hasher
+from .utils import rol32
+
+
 # Implementation mostly from https://en.wikipedia.org/wiki/MD5
-class MD5:
+class MD5(Hasher):
+    # Stop Black reformatting these poor arrays
     # fmt: off
     CONST_s = [
         7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,
@@ -57,7 +61,7 @@ class MD5:
             self.update(inp)
 
     @classmethod
-    def get_padding(cls, len_: int):
+    def get_padding(cls, len_: int) -> bytes:
         padding = b"\x80"
         padding += b"\x00" * ((55 - len_) % 64)
         padding += (len_ * 8).to_bytes(8, "little")
@@ -72,9 +76,9 @@ class MD5:
         self._update()
 
     def _update(self):
-        while len(self.buffer) >= 64:
-            self._update_chunk(self.buffer[:64])
-            self.buffer = self.buffer[64:]
+        while len(self.buffer) >= self.LEN_BLOCK:
+            self._update_chunk(self.buffer[: self.LEN_BLOCK])
+            self.buffer = self.buffer[self.LEN_BLOCK :]
 
     def _update_chunk(self, chunk: bytes):
         M = [int.from_bytes(chunk[i : i + 4], "little") for i in range(0, 64, 4)]
@@ -112,6 +116,3 @@ class MD5:
         assert len(copy.buffer) == 0
 
         return b"".join(v.to_bytes(4, "little") for v in copy.state)
-
-    def hexdigest(self) -> str:
-        return self.digest().hex()
