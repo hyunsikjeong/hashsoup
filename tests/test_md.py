@@ -20,7 +20,7 @@ class TestMD5:
     def test_blockfit(self):
         rng = random.Random(b"test_seed")
         for len_ in range(1, 5):
-            target = randbytes(rng, len_)
+            target = randbytes(rng, len_ * MD5.LEN_BLOCK)
             assert MD5(target).digest() == hashlib.md5(target).digest()
 
     def test_long(self):
