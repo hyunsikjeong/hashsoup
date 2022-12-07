@@ -1,6 +1,6 @@
 [project]
 name = "hashsoup"
-version = "0.1.0"
+version = "0.1.0.post1"
 description = "A Python library for handling hash structures, useful for serialization & length extension attacks"
 readme = "README.md"
 requires-python = ">=3.6"
