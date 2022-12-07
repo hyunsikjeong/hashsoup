@@ -38,6 +38,9 @@ class MD4(Hasher):
         self.g = self.CONST_g[:]
         self.C = self.CONST_C[:]
         if state:
+            assert (
+                len(state) == self.LEN_STATE
+            ), f"The state must be {self.LEN_STATE}-byte"
             self.state = [
                 int.from_bytes(state[i : i + 4], "little") for i in range(0, 16, 4)
             ]
