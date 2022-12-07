@@ -1,3 +1,33 @@
+[project]
+name = "hashsoup"
+version = "0.1.0"
+description = "A Python library for handling hash structures, useful for serialization & length extension attacks"
+readme = "README.md"
+requires-python = ">=3.6"
+license = {file = "LICENSE.txt"}
+keywords = ["hash", "length-extension", "serialization"]
+authors = [
+    {name = "Hyunsik Jeong", email = "jhs7jhs@naver.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.urls]  # Optional
+"Homepage" = "https://github.com/hyunsikjeong/hashsoup"
+"Bug Reports" = "https://github.com/hyunsikjeong/hashsoup/issues"
+"Source" = "https://github.com/hyunsikjeong/hashsoup"
+
+[build-system]
+requires = ["setuptools>=43.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [tool.pytest.ini_options]
 pythonpath = "src"
 addopts = [
