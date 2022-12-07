@@ -35,7 +35,9 @@ class MD2(Hasher):
         self.S = self.CONST_S[:]
         self.L = 0
         if state:
-            assert len(state) == self.LEN_STATE, "The state must be 32-byte"
+            assert (
+                len(state) == self.LEN_STATE
+            ), f"The state must be {self.LEN_STATE}-byte"
             self.D = bytearray(state[:16]) + bytearray(32)
             self.C = bytearray(state[16:])
         else:
