@@ -1,6 +1,7 @@
-from hashsoup import *
 import hashlib
 import random
+
+from hashsoup import *
 
 try:
     random.randbytes(1)
