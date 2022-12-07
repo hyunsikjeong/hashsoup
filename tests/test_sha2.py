@@ -103,3 +103,34 @@ class TestSHA512:
         for len_ in range(0x100, 0x1000, 0x100):
             target = randbytes(rng, len_)
             assert SHA512(target).digest() == hashlib.sha512(target).digest()
+
+
+class TestSHA384:
+    BASIC_CASES = [
+        (
+            b"",
+            "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b",
+        ),
+    ]
+
+    def test_basic(self):
+        for inp, out in self.BASIC_CASES:
+            assert SHA384(inp).hexdigest() == out, f"Failed with {inp}"
+
+    def test_short(self):
+        rng = random.Random(b"test_seed")
+        for len_ in range(0, SHA384.LEN_BLOCK):
+            target = randbytes(rng, len_)
+            assert SHA384(target).digest() == hashlib.sha384(target).digest()
+
+    def test_blockfit(self):
+        rng = random.Random(b"test_seed")
+        for len_ in range(1, 5):
+            target = randbytes(rng, len_ * SHA384.LEN_BLOCK)
+            assert SHA384(target).digest() == hashlib.sha384(target).digest()
+
+    def test_long(self):
+        rng = random.Random(b"test_seed")
+        for len_ in range(0x100, 0x1000, 0x100):
+            target = randbytes(rng, len_)
+            assert SHA384(target).digest() == hashlib.sha384(target).digest()
