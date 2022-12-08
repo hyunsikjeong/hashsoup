@@ -35,3 +35,30 @@ class TestRIPEMD160:
     def test_basic(self):
         for inp, out in self.BASIC_CASES:
             assert RIPEMD160(inp).hexdigest() == out, f"Failed with {inp}"
+
+
+class TestRIPEMD128:
+    BASIC_CASES = [
+        (b"", "cdf26213a150dc3ecb610f18f6b38b46"),
+        (b"a", "86be7afa339d0fc7cfc785e72f578d33"),
+        (b"abc", "c14a12199c66e4ba84636b0f69144c77"),
+        (b"message digest", "9e327b3d6e523062afc1132d7df9d1b8"),
+        (b"abcdefghijklmnopqrstuvwxyz", "fd2aa607f71dc8f510714922b371834e"),
+        (
+            b"abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq",
+            "a1aa0689d0fafa2ddc22e88b49133a06",
+        ),
+        (
+            b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+            "d1e959eb179c911faea4624c60c5c702",
+        ),
+        (
+            b"12345678901234567890123456789012345678901234567890123456789012345678901234567890",
+            "3f45ef194732c2dbb2c4a2c769795fa3",
+        )
+        # 1 million times "a": 4a7f5723f954eba1216c9d8f6320431f
+    ]
+
+    def test_basic(self):
+        for inp, out in self.BASIC_CASES:
+            assert RIPEMD128(inp).hexdigest() == out, f"Failed with {inp}"
