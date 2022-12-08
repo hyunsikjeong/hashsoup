@@ -7,3 +7,5 @@ from .sha224 import SHA224
 from .sha256 import SHA256
 from .sha384 import SHA384
 from .sha512 import SHA512
+
+from .ripemd160 import RIPEMD160
