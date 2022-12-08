@@ -10,3 +10,6 @@ from .sha512 import SHA512
 
 from .ripemd128 import RIPEMD128
 from .ripemd160 import RIPEMD160
+
+from .keccak import SHA3_224, SHA3_256, SHA3_384, SHA3_512
+from .keccak import SHAKE_128, SHAKE_256
